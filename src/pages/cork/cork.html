@@ -1,0 +1,62 @@
+<!–- Header for the app, colour set to primary which was edited in variables.scss -–>
+<ion-header>
+  <ion-navbar hideBackButton color="primary">
+    <ion-title>
+     <h2 text-center>Weather Forecast App</h2>
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<!–- Multiple choice selector. Select a county to change the page to display the weather for that county. The data should persist when the app is reused -–>
+<ion-content padding>
+  <ion-item>
+    <ion-label>Select A County to Display</ion-label>
+    <ion-select #C (ionChange)="change(C.value)" okText="Change County" [(ngModel)]="countySelector" multiple="false">
+      <ion-option value = "1">Dublin</ion-option>
+      <ion-option value = "2">Galway</ion-option>
+      <ion-option value = "3">Donegal</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <!–- Displays location, current weather status of that location and an image corrosponding to the current status -–>
+  <div *ngIf="weather">
+   <br>
+   <h3 text-center>{{weather.display_location.full}}</h3>
+   <h3 text-center>Current Status</h3>
+   <p text-center><img src="{{weather.icon_url}}" width="120px"></p>
+   <p text-center>{{weather.weather}}</p>
+
+   <!–- List that will display to the user current statistics pulled from the api -–>
+   <ion-list>
+     <ion-item>
+       <ion-icon name="ios-body-outline" item-start></ion-icon>
+       Feeling like: {{weather.feelslike_string}}
+     </ion-item>
+     <ion-item>
+        <ion-icon name="ios-cog-outline" item-start></ion-icon>
+        Current Heat: ({{weather.temp_c}}C)
+     </ion-item>
+     <ion-item>
+        <ion-icon name="ios-compass-outline" item-start></ion-icon>
+        Wind: {{weather.wind_string}}
+     </ion-item>
+     <ion-item>
+        <ion-icon name="ios-water" item-start></ion-icon>
+        Humidity: {{weather.relative_humidity}}
+     </ion-item>
+   </ion-list>
+  </div>
+
+  <!–- Grid that shows the three day forecast for the selected county (Day & Night) -–>
+  <h3 text-center>Three Day Forecast</h3>
+  <div *ngIf="forecast">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-3 *ngFor="let aw of forecast">
+          <p>{{aw.title}}</p>
+          <p><img src= "{{aw.icon_url}}" width ="50px" ></p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
